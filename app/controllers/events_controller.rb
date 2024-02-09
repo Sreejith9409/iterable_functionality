@@ -1,6 +1,6 @@
 class EventsController < ApplicationController
   def index
-    @events = EventTracker.all
+    @events = EventTracker.includes(:user).all
   end
 
   def create_event_a
