@@ -15,7 +15,7 @@ class IterableService
       }
     })
     if response.code.eql?(200)
-      event.update!(is_synced: true) if event.present?
+      @event.update!(is_synced: true) if @event.present?
     end
     response
   end
@@ -29,7 +29,7 @@ class IterableService
       }
     })
     if response.code.eql?(200)
-      event.update!(is_synced: true, is_email_delivered: true) if event.present?
+      @event.update!(is_synced: true, is_email_delivered: true) if @event.present?
     end
     response
   end
@@ -39,13 +39,12 @@ class IterableService
       request_url = BASE_URL + url
       headers_hash["Content-Type"] = 'application/json'
       resp = RestClient::Request.execute(method: :post, url: request_url, payload: request_hash.to_json, verify_ssl: OpenSSL::SSL::VERIFY_NONE, headers: headers_hash)
-      binding.pry
       if response.present?
         response = JSON.parse(resp.body)
       end
     rescue => exception
-      response = exception.response
-      Rails.logger.info(response.body)
+      # response = exception.response
+      Rails.logger.info(exception.message)
     end
     response
   end

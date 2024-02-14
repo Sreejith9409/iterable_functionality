@@ -11,5 +11,7 @@ class EventTracker < ApplicationRecord
     else
       iterable_service.send_email_notification(user.email, user.id)
     end
+  rescue Exception => message
+    Rails.logger.info(message.message)
   end
 end
